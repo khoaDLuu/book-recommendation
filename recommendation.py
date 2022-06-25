@@ -26,6 +26,7 @@ def recommendations_for_user(user_id, dataset, kernel, num=10):
             dataset,
             kernel,
         )["id"]
+        if book_id_to_index(book_id, dataset) > 0
     ]
 
 
@@ -42,11 +43,14 @@ def recommendations_from_book(book_idx, dataset, kernel, threshold=.1):
     return dataset.loc[similar_author & same_cluster].sort_values(by='score', ascending=False).head(10)
 
 
-def book_id_to_index(book_id, dataset):
-    return int(dataset[dataset["id"] == book_id].index[0])
+def book_id_to_index(book_id: int, dataset) -> int:
+    try:
+        return int(dataset[dataset["id"] == book_id].index[0])
+    except IndexError:
+        return -1
 
 
-def book_index_to_id(book_idx, dataset):
+def book_index_to_id(book_idx: int, dataset) -> int:
     return int(dataset["id"][book_idx])
 
 
@@ -55,7 +59,7 @@ def bought_buys(user_id):
     return [book_id for book_id, *_ in results]
 
 
-def load_dataset(file_name="data_product_v3.csv"):
+def load_dataset(file_name: str = "data_product_v3.csv"):
     file_path = f"/tmp/{file_name}"
     if not file_exists(file_path):
         pull_dataset()
@@ -66,7 +70,7 @@ def load_dataset(file_name="data_product_v3.csv"):
     return DATASET
 
 
-def load_author_lk_model(file_name="author_lk_model.pickle"):
+def load_author_lk_model(file_name: str = "author_lk_model.pickle"):
     file_path = f"/tmp/{file_name}"
     if not file_exists(file_path):
         pull_author_lk_model()
@@ -90,11 +94,11 @@ def pull_author_lk_model():
     pull_resource(url, file_name)
 
 
-def pull_resource(url, file_name):
+def pull_resource(url, file_name: str):
     resource_file = requests.get(url).content
     with open(f"/tmp/{file_name}", "wb") as f:
         f.write(resource_file)
 
 
-def file_exists(file_name):
+def file_exists(file_name: str):
     return Path(f"/tmp/{file_name}").is_file()
