@@ -28,7 +28,7 @@ def create_app(test_config=None):
     @app.route("/recommendations", methods=['GET'])
     def recommend_books():
         try:
-            user_id = request.args['user_id']
+            user_id = int(request.args['user_id'])
             return jsonify({
                 "success": True,
                 "data": {

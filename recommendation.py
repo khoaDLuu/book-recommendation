@@ -10,27 +10,31 @@ DATASET = None
 AUTHOR_LK_MODEL = None
 
 
-def get_recommendations(user_id):
-    return recommendations_for_user(
-        user_id, load_dataset(), load_author_lk_model()
+def get_recommendations(user_id: int) -> list:
+    return list(
+        recommendations_for_user(
+            user_id, load_dataset(), load_author_lk_model()
+        )
     )
 
 
-def recommendations_for_user(user_id, dataset, kernel, num=10):
+def recommendations_for_user(user_id: int, dataset, kernel, n: int = 12) -> set:
     user_bought_buys = bought_buys(user_id)
-    return [  # quick
-        rec_book_id
-        for book_id in user_bought_buys
-        for rec_book_id in recommendations_from_book(
-            book_id_to_index(book_id, dataset),
-            dataset,
-            kernel,
-        )["id"]
-        if book_id_to_index(book_id, dataset) > 0
-    ]
+    return set(
+        [  # quick
+            rec_book_id
+            for book_id in user_bought_buys
+            for rec_book_id in recommendations_from_book(
+                book_id_to_index(book_id, dataset),
+                dataset,
+                kernel,
+            )["id"]
+            if book_id_to_index(book_id, dataset) > 0
+        ]
+    )
 
 
-def recommendations_from_book(book_idx, dataset, kernel, threshold=.1):
+def recommendations_from_book(book_idx: int, dataset, kernel, threshold: float = .1):
     sim = sorted(
         list(enumerate(kernel[book_idx])),
         key=lambda x: x[1],
@@ -54,7 +58,7 @@ def book_index_to_id(book_idx: int, dataset) -> int:
     return int(dataset["id"][book_idx])
 
 
-def bought_buys(user_id):
+def bought_buys(user_id: int) -> list:
     results = Buy.query.filter_by(user_id=user_id).with_entities(Buy.book_id).all()
     return [book_id for book_id, *_ in results]
 
