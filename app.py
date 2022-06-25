@@ -29,10 +29,11 @@ def create_app(test_config=None):
     def recommend_books():
         try:
             user_id = int(request.args['user_id'])
+            recs_per_book = int(request.args.get('recs_per_book', 4))
             return jsonify({
                 "success": True,
                 "data": {
-                    "recommendations": get_recommendations(user_id)
+                    "recommendations": get_recommendations(user_id, recs_per_book)
                 },
             }), 200
         except (KeyError, BadRequest) as e:

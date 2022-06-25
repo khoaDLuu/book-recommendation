@@ -10,15 +10,15 @@ DATASET = None
 AUTHOR_LK_MODEL = None
 
 
-def get_recommendations(user_id: int) -> list:
+def get_recommendations(user_id: int, recs_per_book: int) -> list:
     return list(
         recommendations_for_user(
-            user_id, load_dataset(), load_author_lk_model()
+            user_id, load_dataset(), load_author_lk_model(), n=recs_per_book
         )
     )
 
 
-def recommendations_for_user(user_id: int, dataset, kernel, n: int = 12) -> set:
+def recommendations_for_user(user_id: int, dataset, kernel, n: int) -> set:
     user_bought_buys = bought_buys(user_id)
     return set(
         [  # quick
@@ -28,13 +28,14 @@ def recommendations_for_user(user_id: int, dataset, kernel, n: int = 12) -> set:
                 book_id_to_index(book_id, dataset),
                 dataset,
                 kernel,
+                n,
             )["id"]
             if book_id_to_index(book_id, dataset) > 0
         ]
     )
 
 
-def recommendations_from_book(book_idx: int, dataset, kernel, threshold: float = .1):
+def recommendations_from_book(book_idx: int, dataset, kernel, n: int, threshold: float = .1):
     sim = sorted(
         list(enumerate(kernel[book_idx])),
         key=lambda x: x[1],
@@ -44,7 +45,7 @@ def recommendations_from_book(book_idx: int, dataset, kernel, threshold: float =
 
     similar_author = dataset.index.isin(index)
     same_cluster = dataset.cluster == dataset.iloc[book_idx]['cluster']
-    return dataset.loc[similar_author & same_cluster].sort_values(by='score', ascending=False).head(10)
+    return dataset.loc[similar_author & same_cluster].sort_values(by='score', ascending=False).head(n)
 
 
 def book_id_to_index(book_id: int, dataset) -> int:
