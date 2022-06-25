@@ -38,7 +38,7 @@ def create_app(test_config=None):
         except (KeyError, BadRequest) as e:
             app.logger.error(e, exc_info=True)
             abort(400)
-        except Exception:
+        except Exception as e:
             app.logger.exception(e)
             abort(500)
 
@@ -55,7 +55,7 @@ def create_app(test_config=None):
         except (KeyError, BadRequest) as e:
             app.logger.error(e, exc_info=True)
             abort(400)
-        except Exception:
+        except Exception as e:
             app.logger.exception(e)
             abort(500)
 

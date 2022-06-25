@@ -61,7 +61,7 @@ def load_dataset(file_name="data_product_v3.csv"):
         pull_dataset()
 
     global DATASET
-    if not DATASET:
+    if DATASET is None:
         DATASET = pd.read_csv(file_path, sep=',', index_col=[0])
     return DATASET
 
@@ -72,7 +72,7 @@ def load_author_lk_model(file_name="author_lk_model.pickle"):
         pull_author_lk_model()
 
     global AUTHOR_LK_MODEL
-    if not AUTHOR_LK_MODEL:
+    if AUTHOR_LK_MODEL is None:
         with open(file_path, 'rb') as f:
             AUTHOR_LK_MODEL = pickle.load(f)
     return AUTHOR_LK_MODEL
