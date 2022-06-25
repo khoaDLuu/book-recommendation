@@ -23,21 +23,28 @@ def db_drop_and_create_all():
     db.create_all()
 
 
+"""
+python3 manage.py db init
+python3 manage.py db migrate
+python3 manage.py db upgrade
+"""
+
+
 class Buy(db.Model):
     __tablename__ = 'bookbuys'
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer)
-    book_name = Column(String(4096))
+    book_id = Column(Integer)
 
-    def __init__(self, user_id, book_name):
+    def __init__(self, user_id, book_id):
         self.user_id = user_id
-        self.book_name = book_name
+        self.book_id = book_id
 
     def details(self):
         return {
             'id': self.id,
             'user_id': self.user_id,
-            'book_name': self.book_name,
+            'book_id': self.book_id,
         }
 
     def insert(self):
