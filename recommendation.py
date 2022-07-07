@@ -21,17 +21,15 @@ def get_recommendations(user_id: int, recs_per_book: int) -> list:
 def recommendations_for_user(user_id: int, dataset, kernel, n: int) -> set:
     user_bought_buys = bought_buys(user_id)
     return set(
-        [  # quick
-            rec_book_id
-            for book_id in user_bought_buys
-            for rec_book_id in recommendations_from_book(
-                book_id_to_index(book_id, dataset),
-                dataset,
-                kernel,
-                n,
-            )["id"]
-            if book_id_to_index(book_id, dataset) > 0
-        ]
+        rec_book_id
+        for book_id in user_bought_buys
+        for rec_book_id in recommendations_from_book(
+            book_id_to_index(book_id, dataset),
+            dataset,
+            kernel,
+            n,
+        )["id"]
+        if book_id_to_index(book_id, dataset) > 0
     )
 
 
@@ -49,11 +47,7 @@ def recommendations_from_book(book_idx: int, dataset, kernel, n: int, threshold:
 
 
 def book_id_to_index(book_id: int, dataset) -> int:
-    print(dataset.columns)
-    print(dataset.head())
-    print(book_id)
     try:
-        print(dataset["id"])
         return int(dataset[dataset["id"] == book_id].index[0])
     except IndexError:
         return -1
