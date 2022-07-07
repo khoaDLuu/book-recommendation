@@ -49,7 +49,11 @@ def recommendations_from_book(book_idx: int, dataset, kernel, n: int, threshold:
 
 
 def book_id_to_index(book_id: int, dataset) -> int:
+    print(df.columns)
+    print(df.head())
+    print(book_id)
     try:
+        print(dataset["id"])
         return int(dataset[dataset["id"] == book_id].index[0])
     except IndexError:
         return -1
