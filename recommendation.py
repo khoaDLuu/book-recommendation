@@ -88,13 +88,13 @@ def load_author_lk_model(file_name: str = "author_lk_model.pickle"):
 
 
 def pull_dataset():
-    url = "https://drive.google.com/uc?export=download&id=1HisONoXYR6fcqIPCALRGlNI-7NErwEjY"
+    url = "https://drive.google.com/uc?export=download&id=19A8Qq1mrne0SPfEvpw-w7H39wr-tKPvm"
     file_name = "data_product_v3.csv"
     pull_resource(url, file_name)
 
 
 def pull_author_lk_model():
-    url = "https://drive.google.com/uc?export=download&id=1R3UTYIsq-HGd9Mn117zEiG0mAjuFS1SN"
+    url = "https://drive.google.com/uc?export=download&id=1hoiCdcjJLJLjJGzK-ZAEtC2zjiNAS9DK"
     file_name = "author_lk_model.pickle"
     pull_resource(url, file_name)
 
