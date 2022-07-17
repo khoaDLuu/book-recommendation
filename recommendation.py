@@ -62,7 +62,7 @@ def bought_buys(user_id: int) -> list:
     return [book_id for book_id, *_ in results]
 
 
-def load_dataset(file_name: str = "data_product_v3.csv"):
+def load_dataset(file_name: str = "data_product_clustered.csv"):
     file_path = f"/tmp/{file_name}"
     if not file_exists(file_path):
         pull_dataset()
@@ -86,13 +86,13 @@ def load_author_lk_model(file_name: str = "author_lk_model.pickle"):
 
 
 def pull_dataset():
-    url = "https://drive.google.com/uc?export=download&id=19A8Qq1mrne0SPfEvpw-w7H39wr-tKPvm"
-    file_name = "data_product_v3.csv"
+    url = "https://drive.google.com/uc?export=download&id=1Py6ALGqthChSsEbmKhC7WdlDWTIv2I5W"
+    file_name = "data_product_clustered.csv"
     pull_resource(url, file_name)
 
 
 def pull_author_lk_model():
-    url = "https://drive.google.com/uc?export=download&id=1hoiCdcjJLJLjJGzK-ZAEtC2zjiNAS9DK"
+    url = "https://drive.google.com/uc?export=download&id=1AvAVqjDXfmZm_aZYGeQaMbkoCZIPXGDr"
     file_name = "author_lk_model.pickle"
     pull_resource(url, file_name)
 
